@@ -125,7 +125,7 @@ var Game = function (i_name) {
 };
 
 $(document).ready(function () {
-	var game = new Game("{PLAYER_NAME}");
+	var game = new Game("{Hanousek}");
 	game.register();
 	setInterval(game.turn, 2000);
 });
