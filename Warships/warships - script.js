@@ -28,6 +28,7 @@ var Game = function (i_name) {
 	};
 	var playground = createArray();
 
+	var memory = [];
   
   var shoot = function() {
     if (!flag) {
@@ -48,7 +49,28 @@ var Game = function (i_name) {
 			data: {hash: key, x: x, y: y},
 			success: function (data, status) {
 				playground[data.x][data.y] = data.hit;
-			},
+			if (data.hit) {
+				var nearby = new Object {
+					x_left: -1,
+					x_right: 1,
+					y_bot: -1,
+					y_top: 1,
+				}
+				
+				var aim_top = parseInt(data.y) + nearby.y_top;
+				var aim_left = parseInt(data.x) + nearby.x_left;
+				var aim_bot = parseInt(data.y) + nearby.y_bot;
+				var aim_right = parseInt(data.x) + nearby.x_right;
+				
+				if (aim_top >= 0 && aim_top < 10 && aim_left >= 0 && aim_left < 10 && aim_bot >= 0 && aim_bot < 10 && aim_right >= 0 && aim_right < 10) {
+					memory.unshift({x: x, y: aim_top});
+					memory.unshift({x: aim_left, y: y});
+					memory.unshift({x: x, y: aim_bot});
+					memory.unshift({x: aim_right, y: y});
+				}
+			}
+				
+				
 			dataType: "json",
 			timeout: 5000
 		}).always(function () {
