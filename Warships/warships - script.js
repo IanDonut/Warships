@@ -29,44 +29,48 @@ var Game = function (i_name) {
 	var playground = createArray();
 
 	var memory = [];
+	
+	var getPosition = function(p) {
+		if (p < memory.length) {
+			return memory[p];
+		} else {
+			return {
+				x: Math.floor(Math.random() * 10),
+				y: Math.floor(Math.random() * 10)
+			};
+		}
+	};
   
-  var shoot = function() {
-    if (!flag) {
-      return;
-    }
-    var x = Math.floor(Math.random() * 10); 
-    var y = Math.floor(Math.random() * 10);
-    while (playground[x][y] !=null) {
-      var x = Math.floor(Math.random() * 10); 
-      var y = Math.floor(Math.random() * 10);
-    }
+  	var shoot = function() {
+    		if (!flag) {
+     	 		return;
+    		}
+   		var index = 0;
+		var position = getPosition(index++);
+		while (playground[position.x][position.y] !== undefined) {
+			position = getPosition(index++);
+		}
+		console.log("Shooting at", coords);
     
-    console.log("Shooting at [" + x + "," + y + "]");
-    
-    flag = false;
+    	flag = false;
 		$.ajax({
 			url: "http://warships.ondrejkrejcir.cz/shoot.php",
 			data: {hash: key, x: x, y: y},
 			success: function (data, status) {
 				playground[data.x][data.y] = data.hit;
 			if (data.hit) {
-				var nearby = new Object {
-					x_left: -1,
-					x_right: 1,
-					y_bot: -1,
-					y_top: 1,
-				}
-				
-				var aim_top = parseInt(data.y) + nearby.y_top;
-				var aim_left = parseInt(data.x) + nearby.x_left;
-				var aim_bot = parseInt(data.y) + nearby.y_bot;
-				var aim_right = parseInt(data.x) + nearby.x_right;
-				
-				if (aim_top >= 0 && aim_top < 10 && aim_left >= 0 && aim_left < 10 && aim_bot >= 0 && aim_bot < 10 && aim_right >= 0 && aim_right < 10) {
-					memory.unshift({x: x, y: aim_top});
-					memory.unshift({x: aim_left, y: y});
-					memory.unshift({x: x, y: aim_bot});
-					memory.unshift({x: aim_right, y: y});
+				var aim = {
+   					left: parseInt(data.x) - 1,
+   					right: parseInt(data.x) + 1,
+  					bottom: parseInt(data.y) - 1,
+   					top: parseInt(data.y) + 1
+				};
+
+				if (aim.top >= 0 && aim.top < 10 && aim.left >= 0 && aim.left < 10 && aim.bottom >= 0 && aim.bot < 10 && aim.right >= 0 && aim.right < 10) {
+   					memory.unshift({x: x, y: aim.top});
+   					memory.unshift({x: aim.left, y: y});
+   					memory.unshift({x: x, y: aim.bottom});
+   					memory.unshift({x: aim.right, y: y});
 				}
 			}
 				
