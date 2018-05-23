@@ -50,7 +50,7 @@ var Game = function (i_name) {
 		while (playground[position.x][position.y] !== undefined) {
 			position = getPosition(index++);
 		}
-		console.log("Shooting at", coords);
+		console.log("Shooting at", position);
     
     	flag = false;
 		$.ajax({
