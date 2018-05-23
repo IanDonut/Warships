@@ -66,11 +66,14 @@ var Game = function (i_name) {
    					top: parseInt(data.y) + 1
 				};
 
-				if (aim.top >= 0 && aim.top < 10 && aim.left >= 0 && aim.left < 10 && aim.bottom >= 0 && aim.bottom < 10 && aim.right >= 0 && aim.right < 10) {
-   					memory.unshift({x: parseInt(data.x), y: aim.top});
-   					memory.unshift({x: aim.left, y: parseInt(data.y)});
-   					memory.unshift({x: parseInt(data.x), y: aim.bottom});
-   					memory.unshift({x: aim.right, y: parseInt(data.y)});
+				if (aim.top >= 0 && aim.top < 10) {
+   					memory.unshift({x: parseInt(data.x), y: aim.top});} 
+				if (aim.left >= 0 && aim.left < 10) {
+   					memory.unshift({x: aim.left, y: parseInt(data.y)});} 
+				if (aim.bottom >= 0 && aim.bottom < 10) {
+   					memory.unshift({x: parseInt(data.x), y: aim.bottom});} 
+				if (aim.right >= 0 && aim.right < 10) {
+   					memory.unshift({x: aim.right, y: parseInt(data.y)});} 
 				}
 			}
 				
